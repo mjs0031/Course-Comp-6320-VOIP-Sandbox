@@ -1,3 +1,4 @@
+package Sandbox;
 import java.io.File;
 import java.io.IOException;
 
@@ -9,8 +10,8 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
-public class Sandbox{
-  public static void main(String[] args) throws LineUnavailableException, IOException{		
+public class Listener{
+	public static void main(String[] args) throws LineUnavailableException, IOException{		
 		TargetDataLine line = null;
 		
 		AudioFormat format = new AudioFormat(8000.0f, 16, 1, true, true);
