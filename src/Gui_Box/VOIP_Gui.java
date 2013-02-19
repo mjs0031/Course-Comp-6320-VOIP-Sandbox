@@ -42,7 +42,7 @@ public class VOIP_Gui extends JFrame{
 		// JButtons
 		this.button_one = new JButton("Button_One");
 		this.button_one.setFont(new Font("Courier", Font.BOLD, 12));
-		this.button_one.setPreferredSize(new Dimension(50,50));
+		this.button_one.setPreferredSize(new Dimension(150,50));
 		TransmitListener = new TransmitListener();
 		this.button_one.addActionListener(TransmitListener);
 		
@@ -99,8 +99,8 @@ public class VOIP_Gui extends JFrame{
 		this.panel_two.add(this.button_two);
 		this.panel_two.add(this.button_three);
 		
-		this.panel_two.add(this.label_one);
 		this.panel_two.add(this.label_two);
+		this.panel_two.add(this.label_three);
 		
 		
 		// Primary Panel additions
