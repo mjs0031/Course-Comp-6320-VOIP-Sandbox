@@ -87,17 +87,26 @@ public class VOIP_Gui extends JFrame{
      */	
 	public void compile_components(){
 		
-		//this.getContentPane().add(primary);
+		this.getContentPane().add(primary);
 		
 		//this.update_area(); IF NECESSARY RE FRESH
 		
 		// Panel One additions
+		this.panel_one.add(this.button_one);
+		this.panel_one.add(this.label_one);
 		
 		// Panel Two additions
+		this.panel_two.add(this.button_two);
+		this.panel_two.add(this.button_three);
 		
-		// primary.setPreferredSize(new Dimension(4*100,4*100));
-		// primary.add(this.panel_one);
-		// primary.add(this.panel_two);
+		this.panel_two.add(this.label_one);
+		this.panel_two.add(this.label_two);
+		
+		
+		// Primary Panel additions
+		this.primary.setPreferredSize(new Dimension(4*100,4*100));
+		this.primary.add(this.panel_one);
+		this.primary.add(this.panel_two);
 	}
 	
 	/**
