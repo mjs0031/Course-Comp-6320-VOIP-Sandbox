@@ -1,45 +1,47 @@
 package Sandbox;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
-
-import sun.audio.AudioPlayer;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Listener{
-	public static void main(String[] args) throws LineUnavailableException, IOException{
-		byte[] buffer = new byte[1000];
-		
-		int numBytesRead = 0;
+	public static void main(String[] args) throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException{
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		ByteArrayInputStream in = new ByteArrayInputStream(buffer);
+		AudioFileFormat.Type type = AudioFileFormat.Type.AIFF;
 		
-		TargetDataLine line = null;
+		TargetDataLine tLine = null;
+		SourceDataLine sLine = null;
 		
-		AudioFormat format = new AudioFormat(8000.0f, 16, 1, true, true);
+		AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100,
+				16, 2, 4, 44100, false);		
+		DataLine.Info tLineInfo = new DataLine.Info(TargetDataLine.class, format);
+		DataLine.Info sLineInfo = new DataLine.Info(SourceDataLine.class, format);
 		
-		DataLine.Info dataLineInfo = new DataLine.Info(TargetDataLine.class, format);
+		tLine = (TargetDataLine)AudioSystem.getLine(tLineInfo);
+		sLine = (SourceDataLine)AudioSystem.getLine(sLineInfo);
 		
-		line = (TargetDataLine)AudioSystem.getLine(dataLineInfo);
+		AudioInputStream stream = new AudioInputStream(tLine);
 		
-		byte[] data = new byte[line.getBufferSize() / 5];
+		tLine.open(format);
+		sLine.open(format);
 		
-		line.open(format);
-		line.start();
-		
-		AudioInputStream as = new AudioInputStream(in, format, data.length);
+		sLine.start();
 		
 		while(true){
-			numBytesRead = line.read(data, 0, data.length);
-			out.write(data, 0, numBytesRead);
-			as.read(out.toByteArray(), 0, out.toByteArray().length);
-			AudioPlayer.player.start(as);
+			tLine.start();
+			AudioSystem.write(stream, type, out);
+			Thread.sleep(1000);
+			tLine.stop();
+			tLine.flush();
+			sLine.write(out.toByteArray(), 0, out.toByteArray().length);
 		}
 	}
 }
