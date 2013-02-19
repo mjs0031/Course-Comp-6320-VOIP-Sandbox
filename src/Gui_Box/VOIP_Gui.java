@@ -20,6 +20,8 @@ import javax.swing.border.*;
  */
 
 public class VOIP_Gui extends JFrame{
+	
+	private static final long serialVersionUID = 1L;
 
 	// Variables
 	private JButton button_one, button_two, button_three;
