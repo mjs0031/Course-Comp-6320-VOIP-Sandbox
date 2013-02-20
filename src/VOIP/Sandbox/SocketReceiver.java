@@ -13,7 +13,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-public class SocketReceiver extends Thread{
+public class SocketReceiver{
 	public static void main(String[] args) throws IOException, LineUnavailableException{
 		//InetAddress address = InetAddress.getByName("131.204.20.63");
 		byte[] buf = new byte[2048];

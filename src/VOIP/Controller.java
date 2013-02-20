@@ -8,8 +8,8 @@ import java.lang.InterruptedException;
 import javax.sound.sampled.LineUnavailableException;
 
 // Internal Package Support //
-import VOIP.SocketReceiver;
-import VOIP.SocketSender;
+//import VOIP.SocketReceiver;
+//import VOIP.SocketSender;
 
 /**
  * 

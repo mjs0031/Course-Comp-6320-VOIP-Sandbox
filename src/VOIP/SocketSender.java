@@ -85,7 +85,6 @@ public class SocketSender extends Thread{
 				}
 				catch (IOException e){
 					// empty sub-block
-					
 				}
 			}// end while
 			
