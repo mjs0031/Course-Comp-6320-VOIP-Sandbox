@@ -29,33 +29,12 @@ import VOIP.SocketSender;
 public class Controller{
 	
 	// Natural Java Constructor with no params.
-	//public static void main(String[] args) throws InterruptedException{
-	//SocketSender sender = new VOIP.SocketSender();
-	//if (sender != null){
-		//System.out.println("This shit be wack.");
-		
-	//}
-	//Thread.sleep(3000);
-	//ender = null;
-	
-	//}
-	
 	public static void main(String[] args) throws InterruptedException,
 											IOException, LineUnavailableException{
 		SocketSender x = new SocketSender("131.204.20.63");
 		SocketReceiver y = new SocketReceiver();
 		x.start();
 		y.start();
-		//x.interrupt_thread();
-		//y.interrupt_thread();
-		//try{
-		//x.interrupt();
-		 //System.out.println("Stopped");
-		//}
-		//catch (Exception e){
-			
-			
-		//}
 		
 	}
 	

@@ -84,7 +84,7 @@ public class SocketSender extends Thread{
 					this.s.send(this.dp);
 				}
 				catch (IOException e){
-					// not shit
+					// empty sub-block
 					
 				}
 			}// end while
@@ -99,13 +99,6 @@ public class SocketSender extends Thread{
 			this.tLine.stop();
 			this.tLine.close();
 		} // end SocketSender.interrupt_thread()
-		
-		
-		/**
-		 * 
-		 */
-		public void interrupt_thread_two(){
-			this.is_true = false;
-		} // end SocketSender.interrupt_thread_two()
+
 		
 } // end SocketSender class
