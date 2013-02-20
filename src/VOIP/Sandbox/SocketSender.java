@@ -12,9 +12,9 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 
-public class SocketSender{
+public class SocketSender extends Thread{
 	public static void main(String[] args) throws IOException, LineUnavailableException{
-		InetAddress address = InetAddress.getByName("192.168.2.2");
+		InetAddress address = InetAddress.getByName("192.168.1.107");
 		DatagramSocket s = new DatagramSocket();
 		
 		TargetDataLine tLine = null;

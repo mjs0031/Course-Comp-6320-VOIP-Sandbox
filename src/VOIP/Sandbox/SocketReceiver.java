@@ -13,9 +13,9 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-public class SocketReceiver{
+public class SocketReceiver extends Thread{
 	public static void main(String[] args) throws IOException, LineUnavailableException{
-		InetAddress address = InetAddress.getByName("192.168.2.2");
+		InetAddress address = InetAddress.getByName("192.168.1.107");
 		byte[] buf = new byte[2048];
 		DatagramSocket s = new DatagramSocket(12345);
 		DatagramPacket dp = new DatagramPacket(buf, buf.length);
