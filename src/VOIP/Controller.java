@@ -44,8 +44,10 @@ public class Controller{
 											IOException, LineUnavailableException{
 		SocketSender x = new SocketSender("131.204.20.63");
 		SocketReceiver y = new SocketReceiver();
-		//Thread.sleep(3000);
+		x.start();
+		y.start();
 		//x.interrupt_thread();
+		//y.interrupt_thread();
 		//try{
 		//x.interrupt();
 		 //System.out.println("Stopped");

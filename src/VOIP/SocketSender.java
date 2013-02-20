@@ -64,7 +64,6 @@ public class SocketSender extends Thread{
 		this.tLine.start();
 		buffer = new byte[2048];
 		
-		this.start();
 	} // end SocketSender()
 		
 		
@@ -97,7 +96,8 @@ public class SocketSender extends Thread{
 		 * 
 		 */
 		public void interrupt_thread(){
-			this.interrupt();		
+			this.tLine.stop();
+			this.tLine.close();
 		} // end SocketSender.interrupt_thread()
 		
 		
