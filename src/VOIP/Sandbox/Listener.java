@@ -27,7 +27,7 @@ public class Listener{
 		tLine.start();
 		sLine.start();
 		
-		byte[] buffer = new byte[256];
+		byte[] buffer = new byte[2048];
 		
 		int numBytes = 0;
 		
