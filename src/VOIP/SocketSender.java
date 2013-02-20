@@ -10,7 +10,6 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
-//import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 
 //Internal Package Support //
@@ -33,6 +32,20 @@ import javax.sound.sampled.TargetDataLine;
 
 public class SocketSender extends Thread{
 
+	// Audio Variables
+	AudioFormat format;
+	
+	// Transmit Variables
+	InetAddress address;
+	DatagramPacket dp;
+	DatagramSocket s;
+	TargetDataLine tLine;
+	
+	// Control Variables
+	boolean is_true = true;
+	byte[] buffer;
+	int numBytes;
+	
 	/**
 	 * 
 	 * 
@@ -40,34 +53,59 @@ public class SocketSender extends Thread{
 	 * @throws IOException
 	 * @throws LineUnavailableException
 	 */
-	public static void main(String[] args) throws IOException, LineUnavailableException{
-		InetAddress address = InetAddress.getByName("172.17.30.135");
-		DatagramSocket s = new DatagramSocket();
-		
-		TargetDataLine tLine = null;
-		
-		AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100,
-												16, 2, 4, 44100, false);		
-		
+	public SocketSender(String ip_address) throws IOException, LineUnavailableException{
+		this.address = InetAddress.getByName(ip_address);
+		this.s       = new DatagramSocket();
+		this.format  = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100,
+												16, 2, 4, 44100, false);
 		DataLine.Info tLineInfo = new DataLine.Info(TargetDataLine.class, format);
+		this.tLine   = (TargetDataLine)AudioSystem.getLine(tLineInfo);
+		this.tLine.open(this.format);
+		this.tLine.start();
+		buffer = new byte[2048];
 		
-		tLine = (TargetDataLine)AudioSystem.getLine(tLineInfo);
+		this.start();
+	} // end SocketSender()
 		
-		tLine.open(format);
 		
-		tLine.start();
+		/**
+		 * 
+		 * @param  the_line
+		 * @throws IOException
+		 * @throws LineUnavailableException
+		 */
+		@Override
+		public void run(){	
+
+			// Continues until program is closed.
+			while(this.is_true){
+				numBytes = this.tLine.read(buffer, 0, buffer.length);
+				this.dp = new DatagramPacket(buffer, buffer.length, address, 10150);
+				try{
+					this.s.send(this.dp);
+				}
+				catch (IOException e){
+					// not shit
+					
+				}
+			}// end while
+			
+		} // end SocketSender.run()
 		
-		byte[] buffer = new byte[2048];
 		
-		int numBytes = 0;
+		/**
+		 * 
+		 */
+		public void interrupt_thread(){
+			this.interrupt();		
+		} // end SocketSender.interrupt_thread()
 		
-		DatagramPacket dp;
 		
-		// Continues until program is closed.
-		while(true){
-			numBytes = tLine.read(buffer, 0, buffer.length);
-			dp = new DatagramPacket(buffer, buffer.length, address, 12345);
-			s.send(dp);
-		} // end_while
-	} // end_main()
-} // end_class_declaration
+		/**
+		 * 
+		 */
+		public void interrupt_thread_two(){
+			this.is_true = false;
+		} // end SocketSender.interrupt_thread_two()
+		
+} // end SocketSender class

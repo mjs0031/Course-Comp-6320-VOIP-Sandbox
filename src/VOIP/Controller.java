@@ -2,11 +2,14 @@
 package VOIP;
 
 // Java Package Support //
-// { Not Applicable }
+import java.io.IOException;
+import java.lang.InterruptedException;
+
+import javax.sound.sampled.LineUnavailableException;
 
 // Internal Package Support //
-//import SocketReceiver;
-//import SocketSender;
+import VOIP.SocketReceiver;
+import VOIP.SocketSender;
 
 /**
  * 
@@ -23,13 +26,36 @@ package VOIP;
  * 
  */
 
-public class Controller {
+public class Controller{
 	
 	// Natural Java Constructor with no params.
+	//public static void main(String[] args) throws InterruptedException{
+	//SocketSender sender = new VOIP.SocketSender();
+	//if (sender != null){
+		//System.out.println("This shit be wack.");
+		
+	//}
+	//Thread.sleep(3000);
+	//ender = null;
 	
-	SocketReceiver receiver = new SocketReceiver();
-	SocketSender   sender   = new SocketSender();
+	//}
 	
+	public static void main(String[] args) throws InterruptedException,
+											IOException, LineUnavailableException{
+		SocketSender x = new SocketSender("131.204.20.63");
+		SocketReceiver y = new SocketReceiver();
+		//Thread.sleep(3000);
+		//x.interrupt_thread();
+		//try{
+		//x.interrupt();
+		 //System.out.println("Stopped");
+		//}
+		//catch (Exception e){
+			
+			
+		//}
+		
+	}
 	
 } // end_class_declaration
 

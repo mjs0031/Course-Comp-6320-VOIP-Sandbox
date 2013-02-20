@@ -5,9 +5,7 @@ package VOIP;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-//import java.net.InetAddress;
-//import java.net.SocketException;
-//import java.net.UnknownHostException;
+import java.net.InetAddress;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
@@ -35,6 +33,19 @@ import javax.sound.sampled.SourceDataLine;
 
 public class SocketReceiver extends Thread{
 	
+	// Audio Variables
+	AudioFormat format;
+	
+	// Transmit Variables
+	InetAddress address;
+	DatagramPacket dp;
+	DatagramSocket s;
+	SourceDataLine sLine;
+	
+	// Control Variables
+	boolean is_true = true;
+	byte[] buf;
+	
 	/**
 	 * 
 	 * 
@@ -42,29 +53,64 @@ public class SocketReceiver extends Thread{
 	 * @throws IOException
 	 * @throws LineUnavailableException
 	 */
-	public static void main(String[] args) throws IOException, LineUnavailableException{
-		//InetAddress address = InetAddress.getByName("131.204.20.63");
-		byte[] buf = new byte[2048];
-		DatagramSocket s = new DatagramSocket(12345);
-		DatagramPacket dp = new DatagramPacket(buf, buf.length);
-		
-		SourceDataLine sLine = null;
-		
-		AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100,
+	public SocketReceiver() throws IOException, LineUnavailableException{
+		this.buf   = new byte[2048];
+		this.s     = new DatagramSocket(10150);
+		this.dp    = new DatagramPacket(buf, buf.length);
+		this.format     = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100,
 												16, 2, 4, 44100, false);		
+		DataLine.Info sLineInfo = new DataLine.Info(SourceDataLine.class, this.format);
+		this.sLine = (SourceDataLine)AudioSystem.getLine(sLineInfo);	
 		
-		DataLine.Info sLineInfo = new DataLine.Info(SourceDataLine.class, format);
-		
-		sLine = (SourceDataLine)AudioSystem.getLine(sLineInfo);
-		
-		sLine.open(format);
-		
-		sLine.start();
+		this.start();
+	} // end SocketReceiver()
+	
+	
+	/**
+	 * 
+	 * @param  the_line
+	 * @throws IOException
+	 * @throws LineUnavailableException
+	 */
+	@Override
+	public void run(){
+		try{
+			this.sLine.open(this.format);
+		}
+		catch (LineUnavailableException e){
+			// not shit
+			
+		}
+		this.sLine.start();
 		
 		// Continues until program is closed.		
-		while(true){
-			s.receive(dp);
-			sLine.write(dp.getData(), 0, dp.getLength());
-		} // end_while
-	} // end_main()
-} // end_class_declaration
+		while(this.is_true){
+			try{
+				this.s.receive(this.dp);
+			}
+			catch (IOException e){
+				// not shit
+				
+			}
+			this.sLine.write(this.dp.getData(), 0, this.dp.getLength());
+		} // end while
+		
+	} // end SocketReceiver.run()
+	
+	
+	/**
+	 * 
+	 */
+	public void interrupt_thread(){
+		this.interrupt();		
+	} // end SocketReceiver.interrupt_thread()
+	
+	
+	/**
+	 * 
+	 */
+	public void interrupt_thread_two(){
+		this.is_true = false;
+	} // end SocketReceiver.interrupt_thread_two()
+	
+} // end SocketReceiver class
