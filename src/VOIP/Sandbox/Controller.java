@@ -1,4 +1,4 @@
-package Sandbox;
+package VOIP.Sandbox;
 
 public class Controller
 {
