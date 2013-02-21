@@ -28,7 +28,12 @@ import javax.sound.sampled.TargetDataLine;
 * VOIP PACKAGE :: Source code for Comp 6360: Wireless & Mobile Networks
 * 	               Assignment 1 :: VOIP
 * 
+* This is source code for the SocketSender class. This class records
+* sound input, packs the sound in BYTE packets, and forwards the data
+* to the appropriate IP Address.
+* 
 */
+
 
 public class SocketSender extends Thread{
 
@@ -47,11 +52,11 @@ public class SocketSender extends Thread{
 	int numBytes;
 	
 	/**
+	 * Base constructor.
 	 * 
-	 * 
-	 * @param  args
-	 * @throws IOException
-	 * @throws LineUnavailableException
+	 * @throws IOException			: General IOException for package functions.
+	 * @throws LineUnavailable		: General LineUnavailable for package 
+	 * 										functions.
 	 */
 	public SocketSender(String ip_address) throws IOException, LineUnavailableException{
 		this.address = InetAddress.getByName(ip_address);
@@ -68,10 +73,11 @@ public class SocketSender extends Thread{
 		
 		
 		/**
+		 * Run command called automatically by Thread.start().
 		 * 
-		 * @param  the_line
-		 * @throws IOException
-		 * @throws LineUnavailableException
+		 * @throws IOException			: General IOException for package functions.
+		 * @throws LineUnavailable		: General LineUnavailable for package 
+		 * 										functions.
 		 */
 		@Override
 		public void run(){	
@@ -90,14 +96,5 @@ public class SocketSender extends Thread{
 			
 		} // end SocketSender.run()
 		
-		
-		/**
-		 * 
-		 */
-		public void interrupt_thread(){
-			this.tLine.stop();
-			this.tLine.close();
-		} // end SocketSender.interrupt_thread()
-
 		
 } // end SocketSender class

@@ -22,11 +22,23 @@ import javax.sound.sampled.LineUnavailableException;
  * VOIP PACKAGE :: Source code for Comp 6360: Wireless & Mobile Networks
  * 	               Assignment 1 :: VOIP
  * 
+ * TESTING SCENARIO SCRIPT ONLY.
+ * 
  */
 
 public class Controller{
 	
-	// Natural Java Constructor with no params.
+	/**
+	 * 
+	 * TESTING PURPOSES ONLY.
+	 * 
+	 * @param  args					:
+	 * @throws InterruptedException : General InterruptedException for package 
+	 * 										functions.
+	 * @throws IOException			: General IOException for package functions.
+	 * @throws LineUnavailable		: General LineUnavailable for package 
+	 * 										functions.
+	 */
 	public static void main(String[] args) throws InterruptedException,
 											IOException, LineUnavailableException{
 		SocketSender x   = new SocketSender("172.17.30.135");
@@ -34,7 +46,7 @@ public class Controller{
 		x.start();
 		y.start();
 		
-	}
+	} // end main()
 	
-} // end_class_declaration
+} // end Controller()
 

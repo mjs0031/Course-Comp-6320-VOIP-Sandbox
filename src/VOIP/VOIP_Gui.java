@@ -5,7 +5,6 @@ package VOIP;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.InterruptedException;
 import javax.swing.*;
 import javax.sound.sampled.LineUnavailableException;
 
@@ -21,7 +20,9 @@ import javax.sound.sampled.LineUnavailableException;
  * Last Update	: 2013-02-20
  * Update By	: Matthew J Swann
  * 
- * 
+ * Source code for Comp 630: Wireless & Mobile Networks. This code
+ * encompasses the graphical user interface and runs the transmission
+ * sender and receiver.
  */
 
 public class VOIP_Gui extends JFrame{
@@ -30,16 +31,11 @@ public class VOIP_Gui extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	// GUI Variables
-	private JButton button_one, button_two, button_three;
-	
+	private JButton button_one, button_two;
 	private JLabel label_one, label_two, label_three, label_four,
-					label_five, label_six;
-	
+					label_five;
 	private JPanel panel_one, primary;
-    
-	private JTextArea text_area_one;
-	
-	private JTextField text_field_one, text_field_two;
+	private JTextField text_field_one;
 	
 	private TransmitListener TransmitListener;
 	private KillSwitch KillSwitch;
@@ -48,11 +44,16 @@ public class VOIP_Gui extends JFrame{
 	private SocketSender sender;
 	private SocketReceiver receiver;
 	
+	
 	/**
-     * Constructor.
+     * Constructor for the GUI class.
+     * 
+	 * @param  args           : Not currently implemented
+	 * @throws IOException    : General IOException for package functions.
+	 * @throws LineUnavailable: General LineUnavailable for package
+	 * 								functions. 
      */
-	public VOIP_Gui() throws IOException,
-						IOException, LineUnavailableException{
+	public VOIP_Gui() throws IOException, LineUnavailableException{
 		
 		// JButtons
 		this.button_one = new JButton(" :: Connect");
@@ -76,17 +77,13 @@ public class VOIP_Gui extends JFrame{
 		this.panel_one = new JPanel();
 		this.primary   = new JPanel();
 				
-		// JTextArea
-		this.text_area_one = new JTextArea();
-				
 		// JTextField
 		this.text_field_one = new JTextField(15);
-		this.text_field_two = new JTextField(15);
 		
 		// Control Block
 		this.compile_components();
 		
-	} // end_voip_gui_constructor
+	} // end VOIP_Gui()
 	
 	
     /**
@@ -95,8 +92,6 @@ public class VOIP_Gui extends JFrame{
 	public void compile_components(){
 		
 		this.getContentPane().add(primary);
-		
-		//this.update_area(); IF NECESSARY RE FRESH
 		
 		// Panel One additions
 		this.panel_one.setLayout(new GridLayout(4, 4));
@@ -113,26 +108,16 @@ public class VOIP_Gui extends JFrame{
 		// Primary Panel additions
 		this.primary.setPreferredSize(new Dimension(4*100,3*100));
 		this.primary.add(this.panel_one);
-	} // end_voip_gui_compile_components
-	
-	
-	/**
-	 * Updates the UI. May not be necessary
-	 */
-	public void update_area(){
-		
-		// re-establish variables
-		
-		// refresh UI
-	}
+	} // end VOIP_Gui.compile_components()
+
 	
 	/**
-	 * Action listener tied to the ____________ button.
+	 * Action listener for the transmission and connect buttons.
+	 * Attached to the connect button.
 	 */
 	private class TransmitListener implements ActionListener{
 		
 		public void actionPerformed(ActionEvent event){
-			
 			String ip_address = text_field_one.getText();
 			
 			try{
@@ -145,29 +130,32 @@ public class VOIP_Gui extends JFrame{
 			sender.start();
 			receiver.start();
 			
-			System.out.println(ip_address);
-			
 			text_field_one.setText("");
 			
 		} // end TransmitListener.actionPerformed()
 	}// end TransmitListener()
 	
 	
+	/**
+	 * Action listener for the kill command. Attached to the
+	 * Disconnect button.
+	 */
 	private class KillSwitch implements ActionListener{
 		
 		public void actionPerformed(ActionEvent event){
 			
+			// Kill command
 			System.exit(0);
-		}		
-	}
+		}// end KillSwitch.actionPerformed()	
+	} // end KillSwitch()
 		
 	
 		/**
+		 * Runs the Gui. Constructs the complementary variables, etc.
+		 * Runs until the KillSwitch is engaged.
 		 * 
-		 * 
-		 * Main run.
-		 * @param args
-		 * @throws IOException
+		 * @param  args        : Not currently implemented
+		 * @throws IOException : General IOException for package functions.
 		 * 
 		 */
 	    public static void main(String[] args) throws IOException,
@@ -179,5 +167,6 @@ public class VOIP_Gui extends JFrame{
 			
 			teh_gui.pack();
 			teh_gui.setVisible(true);
-		} // end_main()		
-	} // end_class_declaration
+		} // end main()	
+	    
+	} // end VOIP_Gui class

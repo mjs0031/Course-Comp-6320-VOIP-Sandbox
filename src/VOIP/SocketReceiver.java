@@ -18,7 +18,7 @@ import javax.sound.sampled.SourceDataLine;
 
 /**
 * 
-* VOIP/SocketSender.java
+* VOIP/SocketReceiver.java
 * 
 * @author(s)	: Ian Middleton, Zach Ogle, Matthew J Swann
 * @version  	: 1.0
@@ -29,7 +29,11 @@ import javax.sound.sampled.SourceDataLine;
 * VOIP PACKAGE :: Source code for Comp 6360: Wireless & Mobile Networks
 * 	               Assignment 1 :: VOIP
 * 
+* This is source code for the SocketReceiver class. This class accepts a
+* set of packets, unpacks the BYTES and plays back the sound.
+* 
 */
+
 
 public class SocketReceiver extends Thread{
 	
@@ -46,12 +50,13 @@ public class SocketReceiver extends Thread{
 	boolean is_true = true;
 	byte[] buf;
 	
+	
 	/**
+	 * Base constructor.
 	 * 
-	 * 
-	 * @param  args
-	 * @throws IOException
-	 * @throws LineUnavailableException
+	 * @throws IOException			: General IOException for package functions.
+	 * @throws LineUnavailable		: General LineUnavailable for package 
+	 * 										functions.
 	 */
 	public SocketReceiver() throws IOException, LineUnavailableException{
 		this.buf    = new byte[2048];
@@ -66,10 +71,11 @@ public class SocketReceiver extends Thread{
 	
 	
 	/**
+	 * Run command called automatically by Thread.start().
 	 * 
-	 * @param  the_line
-	 * @throws IOException
-	 * @throws LineUnavailableException
+	 * @throws IOException			: General IOException for package functions.
+	 * @throws LineUnavailable		: General LineUnavailable for package 
+	 * 										functions.
 	 */
 	@Override
 	public void run(){
@@ -93,15 +99,6 @@ public class SocketReceiver extends Thread{
 		} // end while
 		
 	} // end SocketReceiver.run()
-	
-	
-	/**
-	 * 
-	 */
-	public void interrupt_thread(){
-		this.sLine.stop();
-		this.sLine.close();
-	} // end SocketReceiver.interrupt_thread()
 
 	
 } // end SocketReceiver class
