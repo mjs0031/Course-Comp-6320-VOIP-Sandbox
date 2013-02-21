@@ -4,12 +4,10 @@ package VOIP;
 // Java Package Support //
 import java.io.IOException;
 import java.lang.InterruptedException;
-
 import javax.sound.sampled.LineUnavailableException;
 
 // Internal Package Support //
-//import VOIP.SocketReceiver;
-//import VOIP.SocketSender;
+// { Not Applicable }
 
 /**
  * 
@@ -31,7 +29,7 @@ public class Controller{
 	// Natural Java Constructor with no params.
 	public static void main(String[] args) throws InterruptedException,
 											IOException, LineUnavailableException{
-		SocketSender x = new SocketSender("131.204.20.63");
+		SocketSender x   = new SocketSender("172.17.30.135");
 		SocketReceiver y = new SocketReceiver();
 		x.start();
 		y.start();

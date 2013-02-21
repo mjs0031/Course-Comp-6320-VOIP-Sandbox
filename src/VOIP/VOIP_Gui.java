@@ -5,7 +5,9 @@ package VOIP;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.InterruptedException;
 import javax.swing.*;
+import javax.sound.sampled.LineUnavailableException;
 
 //Internal Package Support //
 // { Not Applicable }
@@ -30,46 +32,48 @@ public class VOIP_Gui extends JFrame{
 	// GUI Variables
 	private JButton button_one, button_two, button_three;
 	
-	private JLabel label_one, label_two, label_three;
+	private JLabel label_one, label_two, label_three, label_four,
+					label_five, label_six;
 	
-	private JPanel panel_one, panel_two, primary;
+	private JPanel panel_one, primary;
     
 	private JTextArea text_area_one;
 	
 	private JTextField text_field_one, text_field_two;
 	
 	private TransmitListener TransmitListener;
+	private KillSwitch KillSwitch;
 	
 	// VOIP Variables
-	private Controller control;
+	private SocketSender sender;
+	private SocketReceiver receiver;
 	
 	/**
      * Constructor.
      */
-	public VOIP_Gui() throws IOException{
+	public VOIP_Gui() throws IOException,
+						IOException, LineUnavailableException{
 		
 		// JButtons
-		this.button_one = new JButton("Button_One");
-		this.button_one.setFont(new Font("Courier", Font.BOLD, 12));
+		this.button_one = new JButton(" :: Connect");
+		this.button_one.setFont(new Font("Helvetica", Font.BOLD, 12));
 		this.button_one.setPreferredSize(new Dimension(150,50));
 		TransmitListener = new TransmitListener();
 		this.button_one.addActionListener(TransmitListener);
-				
-		this.button_two = new JButton("Button_Two");
-		TransmitListener = new TransmitListener();
-		this.button_two.addActionListener(TransmitListener);
 		
-		this.button_three = new JButton("Button_Three");
-		this.button_three.setFont(new Font("Courier", Font.BOLD, 12));
-				
+		this.button_two = new JButton("{ Disconnect }");
+		KillSwitch      = new KillSwitch();
+		this.button_two.addActionListener(KillSwitch);
+						
 		// JLabels
-		this.label_one   = new JLabel("Label_One");
-		this.label_two   = new JLabel("Label_Two");
-		this.label_three = new JLabel("Label_Three");
+		this.label_one   = new JLabel("Enter IP Connection ::");
+		this.label_two   = new JLabel("");
+		this.label_three = new JLabel("");
+		this.label_four  = new JLabel("");
+		this.label_five  = new JLabel("");
 		
 		// JPanels
 		this.panel_one = new JPanel();
-		this.panel_two = new JPanel();
 		this.primary   = new JPanel();
 				
 		// JTextArea
@@ -95,20 +99,20 @@ public class VOIP_Gui extends JFrame{
 		//this.update_area(); IF NECESSARY RE FRESH
 		
 		// Panel One additions
+		this.panel_one.setLayout(new GridLayout(4, 4));
+		this.panel_one.add(this.label_one);	
+		this.panel_one.add(this.label_two);
+		this.panel_one.add(this.text_field_one);
 		this.panel_one.add(this.button_one);
-		this.panel_one.add(this.label_one);
-		
-		// Panel Two additions
-		this.panel_two.add(this.button_two);
-		this.panel_two.add(this.button_three);
-		
-		this.panel_two.add(this.label_two);
-		this.panel_two.add(this.label_three);
+		this.panel_one.add(this.label_three);
+		this.panel_one.add(this.label_four);
+		this.panel_one.add(this.label_five);
+		this.panel_one.add(this.button_two);
+
 		
 		// Primary Panel additions
-		this.primary.setPreferredSize(new Dimension(4*100,4*100));
+		this.primary.setPreferredSize(new Dimension(4*100,3*100));
 		this.primary.add(this.panel_one);
-		this.primary.add(this.panel_two);
 	} // end_voip_gui_compile_components
 	
 	
@@ -129,17 +133,33 @@ public class VOIP_Gui extends JFrame{
 		
 		public void actionPerformed(ActionEvent event){
 			
-			// DO SOMETHING
+			String ip_address = text_field_one.getText();
 			
-			// primary.removeAll();
-			// MUST HAVE ^^ TO REFRESH!!!
+			try{
+				sender = new SocketSender(ip_address);
+				receiver = new SocketReceiver();
+			}
+			catch (Exception e){
+				// skip it
+			}	
+			sender.start();
+			receiver.start();
 			
-			// re-compile UI components if UI refresh is needed
+			System.out.println(ip_address);
 			
-			// primary.updateUI();
+			text_field_one.setText("");
 			
-		} // end_transmit_listener_actionPerformed
-	}// end class_declaration
+		} // end TransmitListener.actionPerformed()
+	}// end TransmitListener()
+	
+	
+	private class KillSwitch implements ActionListener{
+		
+		public void actionPerformed(ActionEvent event){
+			
+			System.exit(0);
+		}		
+	}
 		
 	
 		/**
@@ -150,7 +170,8 @@ public class VOIP_Gui extends JFrame{
 		 * @throws IOException
 		 * 
 		 */
-	    public static void main(String[] args) throws IOException {
+	    public static void main(String[] args) throws IOException,
+	    							IOException, LineUnavailableException{
 			VOIP_Gui teh_gui = new VOIP_Gui();
 			
 			teh_gui.setTitle("VOIP to end all VOIP's");
