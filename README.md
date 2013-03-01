@@ -6,7 +6,7 @@ Date : 2013
 To   : Swann, Ogle
 From : Middleton
 
-       Making an illegal edit.
+       Basics are done.
 
 ---------------------------------------------------------------------------
 Date : 2013
