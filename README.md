@@ -6,7 +6,7 @@ Date : 2013
 To   : Swann, Ogle
 From : Middleton
 
-       Tryin out dat bash.
+       Making an illegal edit.
 
 ---------------------------------------------------------------------------
 Date : 2013
